@@ -15,7 +15,7 @@ bot = telebot.TeleBot(BOT_TOKEN)
 user_data = {}
 
 # Списки для выбора
-CONSTRUCTION_TYPES = ["1", "2", "3", "4"]  # Временные названия
+CONSTRUCTION_TYPES = ["Скроли", "Екрани", "Щити"]
 TEAMS = ["Бригада 1", "Бригада 2"]
 
 # Состояния пользователя
