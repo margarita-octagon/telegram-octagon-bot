@@ -3,6 +3,7 @@ from telebot import types
 import os
 import requests
 import json
+import time
 from datetime import datetime
 
 # Получаем переменные из окружения
@@ -268,7 +269,22 @@ def send_to_make(bot, data):
     except Exception as e:
         print(f"❌ Помилка: {e}")
 
+# Функция запуска бота с обработкой ошибок
+def start_bot():
+    while True:
+        try:
+            print("🤖 Бот запущено та готовий до роботи!")
+            bot.polling(none_stop=True, timeout=10, long_polling_timeout=20)
+        except requests.exceptions.ReadTimeout:
+            print("❌ Timeout error: перезапуск бота через 5 секунд...")
+            time.sleep(5)
+        except requests.exceptions.ConnectionError:
+            print("❌ Connection error: перезапуск бота через 10 секунд...")
+            time.sleep(10)
+        except Exception as e:
+            print(f"❌ Unexpected error: {e}, перезапуск через 10 секунд...")
+            time.sleep(10)
+
 # Запуск бота
 if __name__ == "__main__":
-    print("🤖 Бот запущено та готовий до роботи!")
-    bot.polling(none_stop=True)
+    start_bot()
