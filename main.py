@@ -5,6 +5,7 @@ import requests
 import json
 import time
 from datetime import datetime
+import telebot.apihelper
 
 # Получаем переменные из окружения
 BOT_TOKEN = os.getenv("BOT_TOKEN")
@@ -281,6 +282,13 @@ def start_bot():
         except requests.exceptions.ConnectionError:
             print("❌ Connection error: перезапуск бота через 10 секунд...")
             time.sleep(10)
+        except telebot.apihelper.ApiTelegramException as e:
+            if "409" in str(e):
+                print("❌ Конфлікт: інший екземпляр бота вже працює. Зупиняємося...")
+                break
+            else:
+                print(f"❌ Telegram API error: {e}, перезапуск через 15 секунд...")
+                time.sleep(15)
         except Exception as e:
             print(f"❌ Unexpected error: {e}, перезапуск через 10 секунд...")
             time.sleep(10)
